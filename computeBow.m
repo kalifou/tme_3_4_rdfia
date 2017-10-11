@@ -1,24 +1,22 @@
-[bow,nc] = computeBow(sifts, clusters, matNormClusters)
+function [bow,nc] = computeBow(sifts, clusters)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
     % N * M ~ H
     nc = assignementKMeans(sifts,clusters);
+    bow = zeros(size(nc));
     
-    listPts = sifts;
-    for i = 1:size(listPts,1)
+    for i = 1:size(sifts,1)
     %STEP 1 find nearest cluster of point
         [~,cInd] = min(nc(:,i),[], 1);
 
         %create a one-hot vector
-        nc(:,i) = zeros(size(nc(:,i)));
-        nc(cInd,i) = 1;
+        bow(cInd,i) = 1;
     end
     
     % Sum 
-    bow = sum(nc,2);
+    bow = sum(bow,2);
     % L1 normalizing
-    bow = b /norm(bow,1);
+    bow = bow ./ norm(bow,1);
     
 end
-

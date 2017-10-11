@@ -1,6 +1,11 @@
-addpath('bow');
+clc;clear;close all;
+addpath('bow/');
+addpath('learning/');
+addpath('descripteurs/');
+addpath('Scene/')
 
-[I, nomin, sifts] = randomImageDes('descripteurs/allSifts','Scenes');
+[I, nomim, sifts] = randomImageDes('Scene/', 'descripteurs/allSifts/');
 load('visualWords.mat');
-[bow, nc] = computeBow(sifts,bestCenters,False);
-visuBoW( I , patchmin , bow , nc, nomim);
+[bow, nc] = computeBow(double(sifts)', bestCenters);
+patchmin = visuDico('visualWords.mat', 'Scene/', 'descripteurs/allSifts/');
+visuBoW(I, patchmin , bow, nc, nomim);
