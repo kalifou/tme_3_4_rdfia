@@ -5,7 +5,5 @@ cate = categories();
 imCat = nbImCat(pathBow,cate);
 imCatTest= imCat-nTrain;
 
-
-
 end
 

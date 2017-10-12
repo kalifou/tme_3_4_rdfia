@@ -1,8 +1,8 @@
 % Script for Exercise 2
 clc;clear;close all;
-% addpath('bow/');
+addpath('learning/');
 addpath('learning/libsvm/matlab/');
-% addpath('descripteurs/');
+addpath('descripteurs/');
 % addpath('Scene/')
 % addpath('allBOWS/');
 % Load train & test datasets
@@ -19,9 +19,9 @@ predictclassifieurs =[];
 for i=1:size(imCatTest)
     ntest=imCatTest(i);
     [ y, ytest ] = labelsTrainTest( nTrain,ntest,imCat,i );
-    predictclassifieurs = [predictclassifieurs, trainTest( train, test, y)];
+    % how to eval the class predicted by a classifier ?!
+    predictclassifieurs = [predictclassifieurs, (trainTest( train, test, y) .* ytest)==1 & ytest == 1 ];
 end
 predictclassifieurs = predictclassifieurs';
 % TODO : QU-3) 
 [ matConf , txCat ] = multiClassPrediction( predictclassifieurs , imCatTest);
-
