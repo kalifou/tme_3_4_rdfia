@@ -4,15 +4,29 @@ function [ matConf , txCat ] = multiClassPrediction( predictclassifieurs , imCat
     matConf = zeros(N_class,N_class);
     txCat = [];
     
-    % For each classifier i
-    for i=1:N_class        
-        % What example has been properly classified by i 
-        inter = predictclassifieurs(i,:)==1;
-        % Calculate the percentage of proper classification 
-        txCat = [txCat, sum(inter)/size(inter,2)];
-   
+    % For every class i
+    for i=1:N_class
+        idx = 1;
+        
+        % Vect of predictions by classifier i
+        pred_i = predictclassifieurs(i,:);
+        
+        % For every class j
+        for j=1:N_class
+            % number of observations in the class j
+            n_j =  imCatTest(j);
+        
+            % percentage of correct classification for class j of N = n_j
+            % elements, by model i
+            perc_j = sum( pred_i(idx:idx+n_j-1) == 1) / n_j;
+            matConf(i,j) = perc_j;
+            if i==j
+                txCat = [txCat, perc_j ];
+            end
+            
+            % position  iterator for next class's obervations
+            idx = idx + n_j;
+        end
     end
+    %matConf =matConf/ norm(matConf);
 end
-
-% Classification : pos must be updated using classes test (resp. train) length in
-% imCat(resp.Test)

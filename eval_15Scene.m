@@ -3,25 +3,48 @@ clc;clear;close all;
 addpath('learning/');
 addpath('learning/libsvm/matlab/');
 addpath('descripteurs/');
-% addpath('Scene/')
-% addpath('allBOWS/');
+
 % Load train & test datasets
 pathBow = 'allBOWS/';
 K= 1001;
 nTrain = 100;
-[imCat , imCatTest] = NbImCatAllTest(pathBow,nTrain);
+T = 10;
 
-[ train , test ] = loadData( nTrain , imCat , pathBow, K);
+txCats=[];
 
-% Loading labels
-predictclassifieurs =[];
+% For T Splits : COMPLETE TO DO T-FOLDING (now just a loop to have mean &
+% std over T iters)
+for t= 1:T
+    t
+    [imCat , imCatTest] = NbImCatAllTest(pathBow,nTrain);
+    [ train , test ] = loadData( nTrain , imCat , pathBow, K);
 
-for i=1:size(imCatTest)
-    ntest=imCatTest(i);
-    [ y, ytest ] = labelsTrainTest( nTrain,ntest,imCat,i );
-    % how to eval the class predicted by a classifier ?!
-    predictclassifieurs = [predictclassifieurs, (trainTest( train, test, y) .* ytest)==1 & ytest == 1 ];
+    % Loading labels
+    predictclassifieurs =[];
+
+    % For every category
+    for i = 1:size(imCatTest,1)
+
+        % Calculate the number of test labels
+        ntest = imCatTest(i);
+
+        % Collect the train & test labels
+        [ y, ytest ] = labelsTrainTest( nTrain,ntest,imCat,i );
+
+        % Fit & Evaluate the classifier i 
+        res_classif_i = trainTest( train, test, y);
+        predictclassifieurs = [predictclassifieurs, res_classif_i.* ytest ];
+    end
+
+    % CHECK the values of the pred & confusion matrix : good enough ?!!
+    predictclassifieurs = predictclassifieurs';
+    [ matConf , txCat ] = multiClassPrediction( predictclassifieurs , imCatTest);
+
+    txCats = [txCats;txCat];
 end
-predictclassifieurs = predictclassifieurs';
-% TODO : QU-3) 
-[ matConf , txCat ] = multiClassPrediction( predictclassifieurs , imCatTest);
+
+% mean over T splits
+meanTxCat = mean(txCats,1);
+% Standard deviation over T splits
+stdTxCat = std(txCats,1);
+
