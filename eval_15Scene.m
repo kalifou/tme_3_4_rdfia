@@ -12,8 +12,7 @@ T = 10;
 
 txCats=[];
 
-% For T Splits : COMPLETE TO DO T-FOLDING (now just a loop to have mean &
-% std over T iters)
+% For T Splits :
 for t= 1:T
     t
     [imCat , imCatTest] = NbImCatAllTest(pathBow,nTrain);
@@ -47,4 +46,14 @@ end
 meanTxCat = mean(txCats,1);
 % Standard deviation over T splits
 stdTxCat = std(txCats,1);
+
+figure;
+imagesc(matConf)
+title("Matrice de confusion")
+figure;
+plot(meanTxCat)
+xticks([1:15])
+xticklabels({'bedro','CALsu','indus','kitch','livin','MITco','MITfo','MIThi','MITin','MITmo','MITtop','MITst','MITta','PARof','store'})
+title("Taux de reconnaissance par carégorie")
+
 
