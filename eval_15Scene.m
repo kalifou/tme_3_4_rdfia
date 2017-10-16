@@ -31,7 +31,7 @@ for t= 1:T
         [ y, ytest ] = labelsTrainTest( nTrain,ntest,imCat,i );
 
         % Fit & Evaluate the classifier i 
-        res_classif_i = trainTest( train, test, y);
+        [res_classif_i, ~] = trainTest( train, test, y);
         predictclassifieurs = [predictclassifieurs, res_classif_i.* ytest ];
     end
 
