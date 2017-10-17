@@ -9,6 +9,9 @@ addpath('Scene/')
 
 % Load train & test datasets
 pathBow = 'allBOWS/';
+mat = 'visualWords.mat';
+path_sifts = 'descripteurs/allSifts/';
+
 K= 1001;
 nTrain = 100;
 
@@ -37,10 +40,10 @@ end
 % STEP 2: select random image and gather variables needed to compute heatmap
 
 % Load dictionnary
-load('visualWords.mat')
+load(mat)
 
 % Load image and sifts
-[I, nomim, sifts] = randomImageDes('Scene/', 'descripteurs/allSifts/');
+[I, nomim, sifts] = randomImageDes('Scene/', path_sifts);
 sifts = double(sifts);
 % Compute distance matrix
 nc = assignementKMeans(sifts', bestCenters);
@@ -52,9 +55,9 @@ classNb = find(strcmp(cate, nomim(1:pos-1)));
 w = Ws(classNb);
 
 % STEP 3: Compute and visualize heatmap
-patchmin = visuDico('visualWords.mat', 'Scene/', 'descripteurs/allSifts/');
+patchmin = visuDico(mat, 'Scene/',path_sifts );
 
-% hmap = compute_prediction_heatmap(I, nc, w);
-%visuHeatMap(I,nc,w,hmap,patchmin,nomim)
+hmap = compute_prediction_heatmap(I, nc,Ws);
+visuHeatMap(I,nc,w,hmap,patchmin,nomim);
 
 

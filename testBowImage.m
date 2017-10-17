@@ -4,8 +4,17 @@ addpath('learning/');
 addpath('descripteurs/');
 addpath('Scene/')
 
-[I, nomim, sifts] = randomImageDes('Scene/', 'descripteurs/allSifts/');
-load('visualWords.mat');
+% pathBow = 'bows/';
+% mat = 'sifts_and_clusters/clusters.mat';
+% path_sifts = 'sifts_and_clusters/sifts/';
+pathBow = 'allBOWS/';
+mat = 'visualWords.mat';
+path_sifts = 'descripteurs/allSifts/';
+
+[I, nomim, sifts] = randomImageDes('Scene/', path_sifts);
+load(mat);
+
+
 [bow, nc] = computeBow(double(sifts)', bestCenters);
-patchmin = visuDico('visualWords.mat', 'Scene/', 'descripteurs/allSifts/');
+patchmin = visuDico(mat, 'Scene/', path_sifts);
 visuBoW(I, patchmin , bow, nc, nomim);
