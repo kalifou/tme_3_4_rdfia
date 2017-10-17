@@ -51,9 +51,9 @@ figure;
 imagesc(matConf)
 title("Matrice de confusion")
 figure;
-plot(meanTxCat)
+plot(1-meanTxCat)
 xticks([1:15])
 xticklabels({'bedro','CALsu','indus','kitch','livin','MITco','MITfo','MIThi','MITin','MITmo','MITtop','MITst','MITta','PARof','store'})
-title("Taux de reconnaissance par carégorie")
+title("Taux de reconnaissance par catégorie")
 
 
