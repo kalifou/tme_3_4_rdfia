@@ -32,7 +32,7 @@ for t= 1:T
 
         % Fit & Evaluate the classifier i 
         [res_classif_i, ~] = trainTest( train, test, y);
-        predictclassifieurs = [predictclassifieurs, res_classif_i.* ytest ];
+        predictclassifieurs = [predictclassifieurs, times(res_classif_i,ytest) ];
     end
 
     % CHECK the values of the pred & confusion matrix : good enough ?!!
@@ -49,11 +49,13 @@ stdTxCat = std(txCats,1);
 
 figure;
 imagesc(matConf)
-title("Matrice de confusion")
+title('Matrice de confusion')
 figure;
 plot(1-meanTxCat)
 xticks([1:15])
 xticklabels({'bedro','CALsu','indus','kitch','livin','MITco','MITfo','MIThi','MITin','MITmo','MITtop','MITst','MITta','PARof','store'})
+<<<<<<< HEAD
 title("Taux de reconnaissance par catégorie")
+
 
 
